@@ -153,7 +153,7 @@ if __name__ == "__main__":
         sys.stderr.write("[!] You need python 3.8 or later to run this script.\n")
         exit(1)
     jsessionid = input("[+] Please input following cookie of yjs.sjtu.edu.cn: JSESSIONID=").strip()
-    date_in_first_week= input("[+] Any date in first week of this semester, Enter for today (eg. 2020-09-07): ").strip()
+    date_in_first_week= input("[+] Any date in first week of this semester, press Enter for today (eg. 2020-09-07): ").strip()
 
     if len(date_in_first_week) == 0:
         date_in_first_week = datetime.date.today().isoformat()
