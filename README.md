@@ -1,4 +1,4 @@
-# BUPT 2019-nCoV Report Bot
+# ICS Exporter for SJTU Graduate Student Course Schedule
 
 ## Requirement
 
