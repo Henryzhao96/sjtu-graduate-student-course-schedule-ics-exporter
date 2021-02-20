@@ -50,8 +50,8 @@ END:VCALENDAR
             date_ = datetime.date.today()
         return date_.strftime('%Y%m')
 
-    def __init__(self, JSESSIONID: str =None, date_in_first_week: str=None, add_alarm=True, alarm_before_min=20):
-        assert JSESSIONID is not None, "JSESSIONID is required"
+    def __init__(self, COOKIE_WEU: str =None, date_in_first_week: str=None, add_alarm=True, alarm_before_min=20):
+        assert COOKIE_WEU is not None, "Cookie _WEU is required"
         self.add_alarm = add_alarm
         self.alarm_before_min = alarm_before_min
 
@@ -61,7 +61,7 @@ END:VCALENDAR
         self.year, self.week_1, _ = week1_date.isocalendar()
 
         self.S = requests.Session()
-        cookie_obj = requests.cookies.create_cookie(name='JSESSIONID',value=JSESSIONID)
+        cookie_obj = requests.cookies.create_cookie(name='_WEU',value=COOKIE_WEU)
         self.S.cookies.set_cookie(cookie_obj)
         self.S.headers.update(self.HEADERS)
 
@@ -76,7 +76,8 @@ END:VCALENDAR
                 allow_redirects=False
             )
             if resp.status_code == 401:
-                sys.stderr.write('[!] 401 Forbidden. Check your JSESSIONID.\n')
+                print(resp.text)
+                sys.stderr.write('[!] 401 Forbidden. Check your _WEU cookie.\n')
                 exit(1)
             
             resp = resp.json()
@@ -152,14 +153,14 @@ if __name__ == "__main__":
     if sys.version_info<(3,8,0):
         sys.stderr.write("[!] You need python 3.8 or later to run this script.\n")
         exit(1)
-    jsessionid = input("[+] Please input following cookie of yjs.sjtu.edu.cn: JSESSIONID=").strip()
-    date_in_first_week= input("[+] Any date in first week of this semester, press Enter for today (eg. 2020-09-07): ").strip()
+    jsessionid = input("[+] Please input following cookie of yjs.sjtu.edu.cn: _WEU=").strip()
+    date_in_first_week= input(f"[+] Any date in first week of this semester, press Enter for today (eg. {datetime.date.today().isoformat()}): ").strip()
 
     if len(date_in_first_week) == 0:
         date_in_first_week = datetime.date.today().isoformat()
     print("[-] Loading...")
     C = YJSJW(
-        JSESSIONID = jsessionid,
+        COOKIE_WEU = jsessionid,
         date_in_first_week= date_in_first_week
     )
     C.save_ics()
